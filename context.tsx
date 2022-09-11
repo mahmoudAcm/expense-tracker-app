@@ -4,6 +4,7 @@ import {
   useContext,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from 'react';
 
 import { FormFields } from './types';
@@ -33,6 +34,10 @@ export default function TrakerProvider({
 }) {
   const [expenses, setExpenses] = useState<FormFields[]>([]);
   const [budget, setBudget] = useState(0);
+
+  useEffect(() => {
+    setBudget(expenses.reduce((sum, cur) => sum + parseFloat(cur.amount), 0));
+  }, [expenses]);
 
   return (
     <Traker.Provider value={{ expenses, budget, setExpenses, setBudget }}>

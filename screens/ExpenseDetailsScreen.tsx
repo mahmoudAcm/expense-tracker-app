@@ -11,7 +11,7 @@ export default function ExpenseDetailsScreen({
   navigation,
   route,
 }: RootStackScreenProps<'ExpenseDetails'>) {
-  const { setExpenses, expenses, setBudget } = useTraker();
+  const { setExpenses, expenses } = useTraker();
 
   const selectedExpense = useMemo(
     () => expenses.find(({ id }) => route.params.id === id),
@@ -34,7 +34,6 @@ export default function ExpenseDetailsScreen({
   const handleOnSure = () => {
     if (!selectedExpense) return;
     setExpenses((items) => items.filter(({ id }) => route.params.id !== id));
-    setBudget((budget) => budget - parseFloat(selectedExpense.amount));
     navigation.navigate('Dashboard');
   };
 

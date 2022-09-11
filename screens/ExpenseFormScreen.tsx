@@ -27,7 +27,7 @@ export default function AddExpenseScreen({
   route,
   navigation,
 }: RootStackScreenProps<'ExpenseForm'>) {
-  const { setExpenses, setBudget } = useTraker();
+  const { setExpenses } = useTraker();
   const [state, setState] = useState(
     route.params.initialValue ?? initialValues,
   );
@@ -79,14 +79,8 @@ export default function AddExpenseScreen({
         { id: uuid.v4().toString(), ...state },
         ...items,
       ]);
-      setBudget((budget) => budget + parseFloat(state.amount));
       navigation.navigate('Dashboard');
     } else {
-      setBudget(
-        (budget) =>
-          (budget - parseFloat(route.params.initialValue?.amount!) || 0) +
-          parseFloat(state.amount),
-      );
       setExpenses((items) => {
         return items.map((item) => {
           if (item.id === route.params.initialValue?.id) return state;

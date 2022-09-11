@@ -54,7 +54,7 @@ export default function DashboardScreen({
 
   let screen = (
     <FlatList
-      data={[data[0], ...expenses]}
+      data={[data[0], ...expenses].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}
       contentContainerStyle={{
         marginTop: 25,
         alignItems: 'center',
