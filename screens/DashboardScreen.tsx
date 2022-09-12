@@ -6,6 +6,7 @@ import ExpenseCard from '../components/ExpenseCard';
 import { View, Text } from '../components/Themed';
 import { useTraker } from '../context';
 import { RootStackScreenProps } from '../types';
+import i18n from '../i18n';
 
 let data = [
   {
@@ -23,7 +24,7 @@ function renderItem(
   itemData: ListRenderItemInfo<typeof data[0]>,
 ) {
   if (itemData.index === 0) {
-    return <Text style={styles.title}>Budget: {budget.toFixed(2)}</Text>;
+    return <Text style={styles.title}>{i18n.t('budget')}: {budget.toFixed(2)}</Text>;
   } else {
     return <ExpenseCard {...itemData.item} />;
   }
@@ -41,6 +42,7 @@ export default function DashboardScreen({
 
   useEffect(() => {
     navigation.setOptions({
+      title: i18n.t('dashboard'),
       headerRight: () => (
         <Ionicons
           name="add"
@@ -54,21 +56,23 @@ export default function DashboardScreen({
 
   let screen = (
     <FlatList
-      data={[data[0], ...expenses].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())}
+      data={[data[0], ...expenses].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      )}
       contentContainerStyle={{
         marginTop: 25,
         alignItems: 'center',
         paddingBottom: 70,
       }}
       renderItem={renderItem.bind(null, budget)}
-      keyExtractor={(item) => item.id || '0' }
+      keyExtractor={(item) => item.id || '0'}
     />
   );
 
   if (expenses.length === 0) {
     screen = (
       <View style={styles.emptyList}>
-        <Text style={styles.emptyListText}>Create your first entry!</Text>
+        <Text style={styles.emptyListText}>{i18n.t('no_entry')}</Text>
       </View>
     );
   }

@@ -9,18 +9,19 @@ import TextField from '../components/TextField';
 import Button from '../components/Button';
 import { RootStackScreenProps, FormFields } from '../types';
 import { useTraker } from '../context';
+import i18n, { locale } from '../i18n';
 
 const initialValues: FormFields = {
   amount: '',
   name: '',
   description: '',
-  date: new Date().toLocaleDateString('en'),
+  date: new Date().toLocaleDateString(locale),
   category: '',
 };
 
 const messages: Record<string, string> = {
-  name: 'please name field is required',
-  amount: 'please provide us with the amount',
+  name: i18n.t('name_field_required'),
+  amount: i18n.t('amount_field_required'),
 };
 
 export default function AddExpenseScreen({
@@ -35,7 +36,7 @@ export default function AddExpenseScreen({
 
   useEffect(() => {
     navigation.setOptions({
-      title: route.params.type === 'add' ? 'Add Entery' : 'Edit',
+      title: route.params.type === 'add' ? i18n.t('add_entry') : i18n.t('edit'),
     });
     // console.log(route.params.initialValue);
   }, [route, navigation]);
@@ -67,7 +68,7 @@ export default function AddExpenseScreen({
     ) {
       setErros((prev) => ({
         ...prev,
-        amount: 'this is not a valid money value',
+        amount: i18n.t('not_valid_amount_number'),
       }));
       return;
     }
@@ -106,7 +107,7 @@ export default function AddExpenseScreen({
           }}
         />
         <TextField
-          placeholder="Name"
+          placeholder={i18n.t('name')}
           style={styles.textField}
           startIcon={<FontAwesome name="user" size={18} color="gray" />}
           value={state.name}
@@ -114,7 +115,7 @@ export default function AddExpenseScreen({
           error={errors.name}
         />
         <TextField
-          placeholder="Amount"
+          placeholder={i18n.t('amount')}
           style={styles.textField}
           startIcon={<FontAwesome name="money" size={17} color="gray" />}
           value={state.amount}
@@ -124,14 +125,14 @@ export default function AddExpenseScreen({
           maxLength={9}
         />
         <TextField
-          placeholder="Category"
+          placeholder={i18n.t('category')}
           style={styles.textField}
           startIcon={<FontAwesome name="tags" size={18} color="gray" />}
           value={state.category}
           onChangeText={handleChange.bind(null, 'category')}
         />
         <TextField
-          placeholder="Description"
+          placeholder={i18n.t('description')}
           style={styles.textField}
           multiline
           startIcon={<FontAwesome name="navicon" size={18} color="gray" />}
@@ -143,7 +144,7 @@ export default function AddExpenseScreen({
           textStyle={{ fontWeight: 'bold', paddingHorizontal: 20 }}
           onPress={handleSave}
         >
-          Save Data
+          {i18n.t('save_data')}
         </Button>
       </View>
     </ScrollView>

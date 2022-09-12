@@ -1,9 +1,13 @@
 import { StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
+import 'moment/min/locales'
 import Layout from '../constants/Layout';
+
 
 import { View, Text } from './Themed';
 import { FormFields } from '../types';
+import i18n from '../i18n';
 
 interface ExpenseCardProps extends FormFields {}
 
@@ -20,9 +24,11 @@ export default function ExpenseCard(props: ExpenseCardProps) {
     <View style={styles.card}>
       <View style={styles.header}>
         <Text style={[styles.headerText, { flex: 1 }]}>
-          {new Date(props.date).toDateString()}
+            {moment(new Date(props.date)).format('dddd, MMMM Do YYYY')}
         </Text>
-        <Text style={styles.headerText}>Expense: {props.amount}</Text>
+        <Text style={styles.headerText}>
+          {i18n.t('expense')}: {props.amount}
+        </Text>
       </View>
       <Pressable
         style={styles.cardContent}

@@ -6,6 +6,7 @@ import { RootStackScreenProps } from '../types';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import Button from '../components/Button';
 import { useTraker } from '../context';
+import i18n, { locale } from '../i18n';
 
 export default function ExpenseDetailsScreen({
   navigation,
@@ -20,6 +21,7 @@ export default function ExpenseDetailsScreen({
 
   useEffect(() => {
     navigation.setOptions({
+      title: i18n.t('expense_details'),
       headerRight: () => (
         <AntDesign
           name="delete"
@@ -38,9 +40,9 @@ export default function ExpenseDetailsScreen({
   };
 
   const handleDelete = () => {
-    Alert.alert('Alert!', 'Are you sure that you want to delete it.', [
-      { text: 'Sure', onPress: handleOnSure },
-      { text: 'Cancel' },
+    Alert.alert('Alert!', i18n.t('delete_expense_alert'), [
+      { text: i18n.t('sure'), onPress: handleOnSure },
+      { text: i18n.t('cancel') },
     ]);
   };
 
@@ -71,12 +73,14 @@ export default function ExpenseDetailsScreen({
         </View>
         <View style={styles.row}>
           <FontAwesome name="calendar" size={20} color="gray" />
-          <Text style={{ flex: 1, marginLeft: 10 }}>Date</Text>
-          <Text>{new Date(selectedExpense?.date).toLocaleDateString('en')}</Text>
+          <Text style={{ flex: 1, marginLeft: 10 }}>{i18n.t('date')}</Text>
+          <Text>
+            {new Date(selectedExpense?.date).toLocaleDateString(locale)}
+          </Text>
         </View>
         <View style={[styles.row, { borderBottomWidth: 0 }]}>
           <FontAwesome name="navicon" size={20} color="gray" />
-          <Text style={{ flex: 1, marginLeft: 10 }}>Remark</Text>
+          <Text style={{ flex: 1, marginLeft: 10 }}>{i18n.t('remark')}</Text>
           <Text style={styles.discription}>{selectedExpense?.description}</Text>
         </View>
       </View>
@@ -85,7 +89,7 @@ export default function ExpenseDetailsScreen({
         onPress={handleEdit}
         textStyle={{ fontStyle: 'italic' }}
       >
-        <FontAwesome name="edit" /> Edit
+        <FontAwesome name="edit" /> {i18n.t('edit')}
       </Button>
     </View>
   );
